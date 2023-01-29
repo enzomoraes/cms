@@ -1,0 +1,55 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:postgres@postgres/postgres?sslmode=disable
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/app
+    networks:
+      - app-net
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: database
+    restart: unless-stopped
+    image: postgres:latest
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+    networks:
+      - app-net
+    ports:
+      - '5432:5432'
+    env_file:
+      - ./.env.pgsql
+
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgadmin
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: "admin@teste.com"
+  #     PGADMIN_DEFAULT_PASSWORD: "admin"
+  #   command: sudo chown -R 5050:5050 ./pgadmin
+  #   volumes:
+  #     - ./pgadmin:/var/lib/pgadmin
+  #   ports:
+  #     - "5433:80"
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - app-net
+
+###############################################################################
+# FIM DOS SERVICES
+###############################################################################
+
+networks:
+  app-net:
+    name: external-networks
