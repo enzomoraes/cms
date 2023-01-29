@@ -1,12 +1,7 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import PostTypeORM from '../domains/posts/Entity/Post.typeorm';
-import PeopleTypeORM from '../domains/people/Entity/People.typeorm';
-import ScaleTypeORM, {
-  BandTypeORM,
-} from '../domains/scales/Entity/Scale.typeorm';
 import * as dotenv from 'dotenv';
-import { initialSeed1670163084200 } from './migrations/1670163084200-initialSeed';
 import ImageTypeORM from '../domains/images/Entity/Image.typeorm';
 
 dotenv.config();
@@ -22,15 +17,9 @@ export const AppDataSource = new DataSource({
       ? { rejectUnauthorized: false }
       : false,
   // logging: true,
-  entities: [
-    PostTypeORM,
-    PeopleTypeORM,
-    ScaleTypeORM,
-    BandTypeORM,
-    ImageTypeORM,
-  ],
+  entities: [PostTypeORM, ImageTypeORM],
   subscribers: [],
-  migrations: [initialSeed1670163084200],
+  migrations: [],
 });
 AppDataSource.initialize()
   .then(async () => {

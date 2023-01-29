@@ -19,7 +19,7 @@ export default class PostTypeORM {
   title: string;
 
   @Column()
-  tags: string[];
+  tags: string;
 
   @Column()
   body: string;

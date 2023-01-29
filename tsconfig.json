@@ -12,8 +12,8 @@
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "src/Swagger.js"],
   "exclude": ["./config.js", "./**/*.spec.ts", "./**/*.test.ts"]
 }

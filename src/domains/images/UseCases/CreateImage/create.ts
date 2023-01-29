@@ -2,6 +2,7 @@ import ImageTypeORM from '../../Entity/Image.typeorm';
 import CreateImageException from '../../Exceptions/CreateImageException';
 import IImageRepository from '../../Repositories/IImageRepository';
 import ImageResizer from '../ResizeImage/ResizeImage';
+import fs from 'fs';
 
 export default class CreateUseCase {
   constructor(
@@ -17,6 +18,12 @@ export default class CreateUseCase {
     image.small = small;
     image.medium = medium;
     image.large = large;
+
+    fs.unlink(path, err => {
+      if (err) console.log(`image ${path} could not be deleted`);
+      console.log(`${path} was deleted`);
+    });
+
     return await this.repository.create(image);
   }
 }
