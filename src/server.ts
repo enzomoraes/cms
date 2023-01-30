@@ -9,6 +9,7 @@ import swaggerFile from './swagger_output.json';
 
 app.use(cors());
 app.use(express.json());
+app.disable('x-powered-by')
 
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 

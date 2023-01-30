@@ -9,7 +9,7 @@ router.use(imageRoutes);
 
 // Middleware de erros padrao do express
 router.use((error: any, req: Request, res: Response, next: NextFunction) => {
-  const status = error.statusCode || 500;
+  const status = error.status || 500;
   const message = !error.message ? 'Internal Error' : error.message;
   // const stack = error.stack;
   res.status(status).json({ message: message });

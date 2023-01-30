@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import multer from 'multer';
-import CreateImageException from '../../domains/images/Exceptions/CreateImageException';
 import ImagePostgresRepository from '../../domains/images/Repositories/ImagePostgresRepository';
 import CreateUseCase from '../../domains/images/UseCases/CreateImage/create';
 import ImageResizer from '../../domains/images/UseCases/ResizeImage/ResizeImage';
@@ -18,9 +17,27 @@ router.post(
   '/images',
   upload.single('image'),
   async (req: Request, res: Response, next: NextFunction) => {
+    // #swagger.autoBody=true
+    /*
+      #swagger.tags = ['Images']
+      #swagger.parameters['image'] = {
+          in: 'formData',
+          type: 'file',
+          required: 'true',
+          description: 'Image file',
+      } 
+      #swagger.responses[200] = {
+        description: 'Image uploaded',
+        schema: [{ $ref: '#/definitions/Post' }]
+      } 
+    */
     try {
-      const imagePath = req.file?.path;
-      res.json(await createImageUseCase.execute(imagePath));
+      const image = req.file;
+      const response = await createImageUseCase.execute(image?.path);
+      return res.json({
+        message: 'image created succesfully',
+        imageId: response.id,
+      });
     } catch (e) {
       next(e);
     }

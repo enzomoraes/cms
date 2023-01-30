@@ -1,33 +1,287 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
-    "version": "1.0.0",
-    "title": "REST API",
-    "description": ""
+    "title": "CMS API",
+    "description": "This API handles operations for Posts and Images related",
+    "version": "1.0.0"
   },
-  "host": "localhost:3000",
-  "basePath": "/",
-  "schemes": [
-    "http"
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
   ],
   "paths": {
     "/images": {
       "post": {
+        "tags": [
+          "Images"
+        ],
         "description": "",
-        "parameters": [],
-        "responses": {}
+        "parameters": [
+          {
+            "name": "image",
+            "in": "formData",
+            "required": true,
+            "description": "Image file",
+            "schema": {
+              "type": "file"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image uploaded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "autoBody": true
       }
     },
     "/posts": {
       "post": {
+        "tags": [
+          "Posts"
+        ],
         "description": "",
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "New Post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        },
+        "autoBody": true,
+        "requestBody": {
+          "required": true,
+          "description": "Creating new post",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostCreate"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/PostCreate"
+              }
+            }
+          }
+        }
       },
       "get": {
+        "tags": [
+          "Posts"
+        ],
         "description": "",
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "List of Posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Post": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          },
+          "title": {
+            "type": "string",
+            "example": "título de um post"
+          },
+          "slug": {
+            "type": "string",
+            "example": "titulo-de-um-post"
+          },
+          "tags": {
+            "type": "string",
+            "example": "javascript,html"
+          },
+          "body": {
+            "type": "string",
+            "example": "##Markup"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "xml": {
+                "name": "image"
+              },
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "Sun Jan 29 2023 21:05:46 GMT-0400 (Amazon Standard Time)"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "slug",
+          "tags",
+          "body",
+          "images",
+          "createdAt"
+        ],
+        "xml": {
+          "name": "Post"
+        }
+      },
+      "PostCreate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "título de um post"
+          },
+          "slug": {
+            "type": "string",
+            "example": "titulo-de-um-post"
+          },
+          "tags": {
+            "type": "string",
+            "example": "javascript,html"
+          },
+          "body": {
+            "type": "string",
+            "example": "##Markup"
+          },
+          "imagesIds": {
+            "type": "array",
+            "example": [
+              "1",
+              "2"
+            ],
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "slug",
+          "tags",
+          "body",
+          "imagesIds"
+        ],
+        "xml": {
+          "name": "PostCreate"
+        }
+      },
+      "Image": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          },
+          "small": {
+            "type": "string",
+            "example": "base64"
+          },
+          "medium": {
+            "type": "string",
+            "example": "base64"
+          },
+          "large": {
+            "type": "string",
+            "example": "base64"
+          }
+        },
+        "required": [
+          "id",
+          "small",
+          "medium",
+          "large"
+        ],
+        "xml": {
+          "name": "Image"
+        }
+      },
+      "ImageCreated": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "image created succesfully"
+          },
+          "id": {
+            "type": "string",
+            "example": "1"
+          }
+        },
+        "required": [
+          "message",
+          "id"
+        ],
+        "xml": {
+          "name": "ImageCreated"
+        }
       }
     }
   }
