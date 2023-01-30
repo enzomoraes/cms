@@ -28,7 +28,7 @@ router.post(
       } 
       #swagger.responses[200] = {
         description: 'Image uploaded',
-        schema: [{ $ref: '#/definitions/Post' }]
+        schema: { $ref: '#/definitions/ImageCreated' }
       } 
     */
     try {

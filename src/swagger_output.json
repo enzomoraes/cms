@@ -34,24 +34,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Post"
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+                  "$ref": "#/components/schemas/ImageCreated"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Post"
-                  },
-                  "xml": {
-                    "name": "main"
-                  }
+                  "$ref": "#/components/schemas/ImageCreated"
                 }
               }
             }
@@ -176,7 +164,7 @@
           },
           "createdAt": {
             "type": "string",
-            "example": "Sun Jan 29 2023 21:05:46 GMT-0400 (Amazon Standard Time)"
+            "example": "Sun Jan 29 2023 21:09:16 GMT-0400 (Amazon Standard Time)"
           }
         },
         "required": [
