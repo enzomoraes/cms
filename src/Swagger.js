@@ -20,6 +20,16 @@ const doc = {
       $images: [{ $ref: '#/definitions/Image' }],
       $createdAt: new Date().toString(),
     },
+    PostPaginated: {
+      $content: [
+        {
+          $ref: '#/definitions/Post',
+        },
+      ],
+      $rows: 5,
+      $page: 0,
+      $totalRecords: 10,
+    },
     PostCreate: {
       $title: 'título de um post',
       $slug: 'titulo-de-um-post',
@@ -35,7 +45,41 @@ const doc = {
     },
     ImageCreated: {
       $message: 'image created succesfully',
-      $id: '1'
+      $id: '1',
+    },
+    PaginateQuery: {
+      $rows: { $ref: '#/components/parameters/rows' },
+      $page: { $ref: '#/components/parameters/page' },
+      $order: { $ref: '#/components/parameters/order' },
+    },
+  },
+  components: {
+    parameters: {
+      rows: {
+        name: 'rows',
+        description: 'rows to be returned in one page',
+        required: true,
+        schema: {
+          type: 'integer',
+        },
+      },
+      page: {
+        name: 'page',
+        description: 'page index of pagination',
+        required: true,
+        schema: {
+          type: 'integer',
+        },
+      },
+      order: {
+        name: 'order',
+        description: 'order of pagination [ field,order ]',
+        required: true,
+        example: 'title,asc',
+        schema: {
+          type: 'string',
+        },
+      },
     },
   },
 };

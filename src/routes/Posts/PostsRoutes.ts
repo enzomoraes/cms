@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response, Router } from 'express';
+import ImagePostgresRepository from '../../domains/images/Repositories/ImagePostgresRepository';
 import PostPostgresRepository from '../../domains/posts/Repositories/PostPostgresRepository';
 import CreateUseCase from '../../domains/posts/UseCases/CreatePost/create';
-import ListAllUseCase from '../../domains/posts/UseCases/ListAllInstrument/listAll';
-import CreateValidator from '../../domains/posts/Validations/createValidator';
-import ImagePostgresRepository from '../../domains/images/Repositories/ImagePostgresRepository';
+import PaginateUseCase from '../../domains/posts/UseCases/PaginateInstrument/paginate';
 import SlugMaker from '../../domains/posts/UseCases/SlugMaker/SlugMaker';
-import { PostCreate } from '../../domains/posts/DTOs/Post.create.dto';
+import CreateValidator from '../../domains/posts/Validations/createValidator';
 
 const router = Router();
 
@@ -21,7 +20,7 @@ const createPostUseCase = new CreateUseCase(
   slugMaker
 );
 
-const listAllPostsUseCase = new ListAllUseCase(postRepository);
+const paginatePostsUseCase = new PaginateUseCase(postRepository);
 
 router.post(
   '/posts',
@@ -50,16 +49,20 @@ router.post(
 router.get(
   '/posts',
   async (req: Request, res: Response, next: NextFunction) => {
+    const page = Number(req.query.page);
+    const rows = Number(req.query.rows);
+    const order = String(req.query.order);
     /*
       #swagger.tags = ['Posts']
+      #swagger.parameters['$ref'] = ['#/components/parameters/rows', '#/components/parameters/page', '#/components/parameters/order']
       #swagger.responses[200] = {
         description: 'List of Posts',
-        schema: [{ $ref: '#/definitions/Post' }]
+        schema: { $ref: '#/definitions/PostPaginated' }
       } 
     */
 
     try {
-      res.json(await listAllPostsUseCase.execute());
+      res.json(await paginatePostsUseCase.execute({ page, rows, order }));
     } catch (e) {
       next(e);
     }
