@@ -1,9 +1,11 @@
 import postRoutes from './Posts/PostsRoutes';
 import imageRoutes from './Images/ImagesRoutes';
+import authRoutes from './Auth/Login';
 import { NextFunction, Request, Response, Router } from 'express';
 
 const router = Router();
 
+router.use(authRoutes);
 router.use(postRoutes);
 router.use(imageRoutes);
 

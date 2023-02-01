@@ -14,6 +14,6 @@
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
   },
-  "include": ["**/*.ts", "src/Swagger.js"],
+  "include": ["**/*.ts", "src/old.js"],
   "exclude": ["./config.js", "./**/*.spec.ts", "./**/*.test.ts"]
 }

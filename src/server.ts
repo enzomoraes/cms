@@ -5,13 +5,13 @@ import cors from 'cors';
 const app = express();
 
 import swaggerUi from 'swagger-ui-express';
-import swaggerFile from './swagger_output.json';
+import { openapiSpecification } from './swagger';
 
 app.use(cors());
 app.use(express.json());
-app.disable('x-powered-by')
+app.disable('x-powered-by');
 
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
 app.use(routes);
 

@@ -12,7 +12,7 @@ export default class PostPostgresRepository implements IPostRepository {
   }
 
   async create(post: PostTypeORM): Promise<PostTypeORM> {
-    return await this.repository.save(post);
+    return this.repository.save(post);
   }
 
   async paginate(
