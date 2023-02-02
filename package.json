@@ -8,7 +8,7 @@
     "createSeed": "typeorm migration:create ./src/infrastructure/migrations/initialSeed",
     "seed": "npx typeorm-ts-node-commonjs migration:run -d ./src/infrastructure/AppDataSource.ts",
     "build": "npx tsc",
-    "generateSchemaTypescript": "npx openapi-typescript ./src/swagger_output.json --output types.ts",
+    "generateSchemaTypescript": "npx openapi-typescript ./swagger.json --output types.ts",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts ",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dockerHub": "docker build -t emper/cms . && docker push emper/cms"

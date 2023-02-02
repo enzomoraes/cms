@@ -78,7 +78,6 @@ router.post(
  */
 router.get(
   '/posts',
-  isAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     const page = Number(req.query.page);
     const rows = Number(req.query.rows);

@@ -1,5 +1,5 @@
 const swaggerJsdoc = require('swagger-jsdoc');
-
+const fs = require('node:fs');
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -19,7 +19,7 @@ const options = {
         Post: {
           type: 'object',
           description: 'Post entity',
-          required: ['id', 'title', 'slug', 'tags', 'body', 'images'],
+          required: ['id', 'title', 'slug', 'tags', 'body', 'images', 'createdAt'],
           properties: {
             id: {
               type: 'string',
@@ -51,7 +51,7 @@ const options = {
               items: { $ref: '#/components/schemas/Image' },
             },
             createdAt: {
-              type: 'date',
+              type: 'string',
               description: 'Post date',
             },
           },
@@ -82,22 +82,12 @@ const options = {
         PostCreate: {
           type: 'object',
           description: 'Post create DTO',
-          required: ['id', 'title', 'slug', 'tags', 'body', 'imagesIds'],
+          required: ['title', 'tags', 'body', 'imagesIds'],
           properties: {
-            id: {
-              type: 'string',
-              example: '15cbf48e-c7ed-4ec3-a65f-2a0f4759e9f1',
-              description: 'Post id',
-            },
             title: {
               type: 'string',
               example: 'título de um post',
               description: 'Post title',
-            },
-            slug: {
-              type: 'string',
-              example: 'titulo-de-um-post',
-              description: 'Post slug',
             },
             tags: {
               type: 'string',
@@ -199,4 +189,7 @@ const options = {
   apis: ['./src/routes/*/*.ts'], // files containing annotations as above
 };
 
-module.exports = { openapiSpecification: swaggerJsdoc(options) };
+const result = swaggerJsdoc(options);
+fs.writeFileSync('swagger.json', JSON.stringify(result));
+
+module.exports = { openapiSpecification: result };
