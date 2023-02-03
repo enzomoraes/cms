@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import ImagePostgresRepository from '../../domains/images/Repositories/ImagePostgresRepository';
 import PostPostgresRepository from '../../domains/posts/Repositories/PostPostgresRepository';
 import CreateUseCase from '../../domains/posts/UseCases/CreatePost/create';
-import PaginateUseCase from '../../domains/posts/UseCases/PaginateInstrument/paginate';
+import PaginateUseCase from '../../domains/posts/UseCases/PaginatePost/paginate';
 import SlugMaker from '../../domains/posts/UseCases/SlugMaker/SlugMaker';
 import CreateValidator from '../../domains/posts/Validations/createValidator';
 import isAuth from '../../middleware/isAuth';

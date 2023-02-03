@@ -50,6 +50,26 @@ export interface paths {
       };
     };
   };
+  "/images/{path}": {
+    /** @description Serves a Image */
+    get: {
+      /** @description Serves a Image */
+      parameters: {
+          /** @description image path */
+        path: {
+          path: string;
+        };
+      };
+      responses: {
+        /** @description Returns the image file. */
+        200: {
+          content: {
+            "image/png": string;
+          };
+        };
+      };
+    };
+  };
   "/posts": {
     /** @description Paginate Posts */
     get: {

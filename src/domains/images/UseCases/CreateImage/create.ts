@@ -15,7 +15,7 @@ export default class CreateUseCase {
     if (!file) {
       throw new CreateImageException('No image could be processed');
     }
-
+    
     const { small, medium, large } = await this.imageResizer.resize(file.path);
 
     const mimetype = file.mimetype.split('/')[1];
@@ -41,7 +41,6 @@ export default class CreateUseCase {
       if (err) console.log(`image ${file.path} could not be deleted`);
       console.log(`${file.path} was deleted`);
     });
-
     return await this.repository.create(image);
   }
 }

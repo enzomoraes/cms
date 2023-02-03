@@ -136,9 +136,9 @@ const options = {
         ImageCreated: {
           type: 'object',
           description: 'Image created succesfuly',
-          required: ['id', 'message'],
+          required: ['imageId', 'message'],
           properties: {
-            id: {
+            imageId: {
               type: 'string',
               example: '15cbf48e-c7ed-4ec3-a65f-2a0f4759e9f1',
               description: 'Image id',
