@@ -5,5 +5,5 @@ export default interface IPostsRepository {
   create(post: PostTypeORM): Promise<PostTypeORM>;
   paginate(paginateQuery: PaginateQuery): Promise<Paginated<PostTypeORM>>;
   findById(id: string): Promise<PostTypeORM | null>;
-  findByTitle(title: string): Promise<PostTypeORM | null>;
+  findBySlug(title: string): Promise<PostTypeORM | null>;
 }

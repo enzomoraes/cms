@@ -39,7 +39,10 @@ export default class PostPostgresRepository implements IPostRepository {
     return await this.repository.findOneBy({ id });
   }
 
-  async findByTitle(title: string): Promise<PostTypeORM | null> {
-    return await this.repository.findOneBy({ title });
+  async findBySlug(slug: string): Promise<PostTypeORM | null> {
+    return await this.repository.findOne({
+      where: { slug },
+      relations: ['images'],
+    });
   }
 }
