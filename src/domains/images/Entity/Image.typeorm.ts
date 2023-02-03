@@ -6,14 +6,14 @@ export default class ImageTypeORM {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('bytea')
-  small: Buffer;
+  @Column()
+  small: string;
 
-  @Column('bytea')
-  medium: Buffer;
+  @Column()
+  medium: string;
 
-  @Column('bytea')
-  large: Buffer;
+  @Column()
+  large: string;
 
   @ManyToOne(type => PostTypeORM, post => post.images)
   post: PostTypeORM;

@@ -3,6 +3,7 @@ import multer from 'multer';
 import ImagePostgresRepository from '../../domains/images/Repositories/ImagePostgresRepository';
 import CreateUseCase from '../../domains/images/UseCases/CreateImage/create';
 import ImageResizer from '../../domains/images/UseCases/ResizeImage/ResizeImage';
+import ServeImageUseCase from '../../domains/images/UseCases/ServeImage/ServeImages';
 import isAuth from '../../middleware/isAuth';
 
 const upload = multer({ dest: 'uploads/' });
@@ -13,6 +14,7 @@ const musicsRepository = new ImagePostgresRepository();
 const imageResizer = new ImageResizer();
 
 const createImageUseCase = new CreateUseCase(musicsRepository, imageResizer);
+const serveImageUseCase = new ServeImageUseCase();
 
 /**
  * @openapi
@@ -47,11 +49,46 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const image = req.file;
-      const response = await createImageUseCase.execute(image?.path);
+      const response = await createImageUseCase.execute(image);
       return res.json({
         message: 'image created succesfully',
         imageId: response.id,
       });
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+/**
+ * @openapi
+ * /images/{path}:
+ *   get:
+ *     security: []
+ *     description: Serves a Image
+ *     tags:
+ *        - Images
+ *     parameters:
+ *        - name: 'path'
+ *          in: path
+ *          required: true
+ *          description: image path
+ *          schema:
+ *             type: string
+ *     responses:
+ *        200:
+ *          description: Returns the image file.
+ *          content:
+ *            image/png:
+ *              schema:
+ *                type: string
+ *                format: binary
+ */
+router.get(
+  '/images/:path',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res.sendFile(serveImageUseCase.execute(req.params.path));
     } catch (e) {
       next(e);
     }

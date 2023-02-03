@@ -155,11 +155,11 @@ export interface components {
        */
       id: string;
       /** @description Image small */
-      small: Record<string, never>;
+      small: string;
       /** @description Image medium */
-      medium: Record<string, never>;
+      medium: string;
       /** @description Image large */
-      large: Record<string, never>;
+      large: string;
     };
     /** @description Image created succesfuly */
     ImageCreated: {

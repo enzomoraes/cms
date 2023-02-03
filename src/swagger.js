@@ -120,15 +120,15 @@ const options = {
               description: 'Image id',
             },
             small: {
-              type: 'byte',
+              type: 'string',
               description: 'Image small',
             },
             medium: {
-              type: 'byte',
+              type: 'string',
               description: 'Image medium',
             },
             large: {
-              type: 'byte',
+              type: 'string',
               description: 'Image large',
             },
           },
