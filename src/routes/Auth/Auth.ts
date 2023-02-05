@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import { config } from 'dotenv';
 
 config();
@@ -59,10 +59,10 @@ router.post(
             expiresIn: '1 day',
           }
         );
-        
+
         return res
           .cookie('access_token', accessToken, {
-            maxAge: 60 * 60 * 24,
+            maxAge: 60 * 60 * 24 * 1000,
             httpOnly: true,
             sameSite: 'lax',
           })
@@ -74,6 +74,61 @@ router.post(
     } catch (e) {
       next(e);
     }
+  }
+);
+
+/**
+ * @openapi
+ * /auth/is-auth:
+ *   get:
+ *     security: []
+ *     description: Login
+ *     tags:
+ *        - Auth
+ *     responses:
+ *       200:
+ *        description: Is token valid.
+ *        content:
+ *          application/json:
+ *            schema:
+ *            type: object
+ *            required:
+ *              - isAuth
+ *            properties:
+ *              isAuth:
+ *                type: boolean
+ */
+router.get(
+  '/auth/is-auth',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const accessToken = req.cookies.access_token;
+    console.log('cookie', accessToken);
+    const key = process.env.JWT_KEY as string;
+    try {
+      verify(accessToken, key);
+      return res.status(200).json({ isAuth: true });
+    } catch (e) {
+      return res.status(401).json({ isAuth: false });
+    }
+  }
+);
+
+/**
+ * @openapi
+ * /auth/logout:
+ *   post:
+ *     security: []
+ *     description: Login
+ *     tags:
+ *        - Auth
+ *     responses:
+ *        201:
+ *          description: Logout.
+ */
+router.post(
+  '/auth/logout',
+  async (req: Request, res: Response, next: NextFunction) => {
+    return res.clearCookie('access_token').status(201).send();
   }
 );
 
