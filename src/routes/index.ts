@@ -1,6 +1,6 @@
 import postRoutes from './Posts/PostsRoutes';
 import imageRoutes from './Images/ImagesRoutes';
-import authRoutes from './Auth/Login';
+import authRoutes from './Auth/Auth';
 import { NextFunction, Request, Response, Router } from 'express';
 
 const router = Router();

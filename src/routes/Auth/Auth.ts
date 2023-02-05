@@ -52,11 +52,23 @@ router.post(
         password === process.env.ADMIN_PASSWORD
       ) {
         const key = process.env.JWT_KEY as string;
-        return res.json({
-          token: sign({ name: username, roles: ['create:post'] }, key, {
+        const accessToken = sign(
+          { name: username, roles: ['create:post'] },
+          key,
+          {
             expiresIn: '1 day',
-          }),
-        });
+          }
+        );
+        
+        return res
+          .cookie('access_token', accessToken, {
+            maxAge: 60 * 60 * 24,
+            httpOnly: true,
+            sameSite: 'lax',
+          })
+          .json({
+            token: accessToken,
+          });
       }
       return res.status(401).json({ message: 'invalidCredentials' });
     } catch (e) {
