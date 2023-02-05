@@ -29,6 +29,30 @@ export interface paths {
       };
     };
   };
+  "/auth/is-auth": {
+    /** @description Login */
+    get: {
+      /** @description Login */
+      responses: {
+        /** @description Is token valid. */
+        200: {
+          content: {
+            "application/json": unknown;
+          };
+        };
+      };
+    };
+  };
+  "/auth/logout": {
+    /** @description Login */
+    post: {
+      /** @description Login */
+      responses: {
+        /** @description Logout. */
+        201: never;
+      };
+    };
+  };
   "/images": {
     /** @description Create a Image */
     post: {
@@ -93,6 +117,26 @@ export interface paths {
       };
       responses: {
         /** @description Returns created post. */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Post"];
+          };
+        };
+      };
+    };
+  };
+  "/posts/{slug}": {
+    /** @description Returns a Post by slug */
+    get: {
+      /** @description Returns a Post by slug */
+      parameters: {
+          /** @description post slug */
+        path: {
+          slug: string;
+        };
+      };
+      responses: {
+        /** @description Returns the post. */
         200: {
           content: {
             "application/json": components["schemas"]["Post"];
@@ -187,7 +231,7 @@ export interface components {
        * @description Image id 
        * @example 15cbf48e-c7ed-4ec3-a65f-2a0f4759e9f1
        */
-      id: string;
+      imageId: string;
       /** @example image created succesfully */
       message: string;
     };
